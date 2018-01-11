@@ -101,24 +101,38 @@ public class WebDriverTest {
          * Step 1. Assert that we are on the correct page by checking that title = 'Send Money, Pay Online or Set Up
          * a Merchant Account - PayPal'
          */
+        String paypalTitle = driver.getTitle();
+        Assert.assertTrue(paypalTitle.contains("Send Money, Pay Online or Set Up a Merchant Account - PayPal"));
 
         // Step 2. Click 'Sign Up for Free' button
+        driver.findElement(By.xpath("//*[@id='signup-button']")).click();
 
         // Step 3: Enter email address test@google.com
+        driver.findElement(By.xpath("//*[@id='cta-btn']")).click();
+        WebElement emailInput =   driver.findElement(By.cssSelector("input[type='email']"));
+        emailInput.sendKeys("test@google.com");
 
         // Step 4: Enter password test123
+        WebElement passwordInput =   driver.findElement(By.cssSelector("input[id='paypalAccountData_password']"));
+        passwordInput.sendKeys("test123");
 
         // Step 5: Enter confirm password test123
+        WebElement confirmPasswordInput =   driver.findElement(By.cssSelector("input[id='paypalAccountData_confirmPassword']"));
+        confirmPasswordInput.sendKeys("test123");
 
         // Step 6: Click 'Continue' button
+        driver.findElement(By.xpath("//*[@value='name_address']")).click();
 
         /*
          * Step 7. Error will be displayed
          * Assert True that error message contains the expectedErrorStr defined below
          */
         String expectedErrorStr = "It looks like you already signed up.";
+        String paypalMessage = driver.findElement(By.xpath("//*[@class='vx_form-control-message']")).getText();
+        Assert.assertTrue(paypalMessage.contains(expectedErrorStr));
 
         // Step 8. Print out the boolean state of the 'confirmPassword' input field displayed
+        
 
         // Step 9. Display the count of Images on the Sign In page
 
