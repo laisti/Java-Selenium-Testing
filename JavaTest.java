@@ -1,16 +1,20 @@
-//package com.pch.test;
+package com.pch.test;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-//import org.apache.http.client.ClientProtocolException;
-import jdk.incubator.http.HttpClient;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -141,32 +145,43 @@ public class JavaTest {
      */
 
     @Test
-    //public void funWithWebServices() throws ClientProtocolException, IOException {
-    public void funWithWebServices() throws IOException {
-
+    public void funWithWebServices() throws ClientProtocolException, IOException {
         String webServiceUrl = "http://api.geonames.org/cities?north=44.1&south=-9.9&east=-22.4&west=55.2&username=demo";
 
         // Step 1 Create instance of httpClient
-        HttpClient client = new HttpClient();
+        HttpClient client = HttpClientBuilder.create().build();;
 
         /*
          * Step 2 Create the Get Request, call it myGetRequest using the HttpGet
          * class and webServiceUrl
          */
+        HttpGet myGetRequest = new HttpGet(webServiceUrl);
 
         /*
          * Step 3 Using the httpClient object created in step 1 execute
          * myGetRequest and save the HttpResponse to myHttpResponse
          */
+        HttpResponse myHttpResponse = client.execute(myGetRequest);
 
         // Step 4 Using myHttpResponse display the statuscode and ReasonPhrase to console
-
+        System.out.println(myHttpResponse.getStatusLine());
 
         /*******EXTRA CREDIT ******
          * Process the myHttpResponse and display the JSON to the console
          * ...hint the response content is returned in myHttpResponse.getEntity().getContent()
          * use BufferedReader
          */
+
+        BufferedReader rd = new BufferedReader
+                (new InputStreamReader(
+                        myHttpResponse.getEntity().getContent()));
+
+        String line = "";
+        StringBuffer sb = new StringBuffer();
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        System.out.println(sb);
     }
 
     /**
