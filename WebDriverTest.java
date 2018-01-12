@@ -1,4 +1,4 @@
-//package com.pch.test;
+package com.pch.test;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -132,11 +132,22 @@ public class WebDriverTest {
         Assert.assertTrue(paypalMessage.contains(expectedErrorStr));
 
         // Step 8. Print out the boolean state of the 'confirmPassword' input field displayed
-        
+        String confirmPassword = driver.findElement(By.cssSelector("div[class='paypalAccountData_confirmPassword']")).getAttribute("value");
+        if (confirmPassword.equals("test123")) {
+            System.out.println(true);
+        } else {
+            System.out.println(false);
+        }
 
         // Step 9. Display the count of Images on the Sign In page
+        List<WebElement> images = driver.findElements(By.tagName("img"));
+        System.out.println(images.size());
 
         // Step 10. Display the country flag shown on the bottom right side
+        driver.findElement(By.xpath("//*[@id='signup-button']")).click();
+        driver.findElement(By.xpath("//*[@id='cta-btn']")).click();
+        String countryFlag = driver.findElement(By.xpath("//*div[@class='country-and-lang-selector']/span[@class='picker country-selector']/a")).getAttribute("class");
+        System.out.println(countryFlag);
     }
 
     @Before
